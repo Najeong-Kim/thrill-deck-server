@@ -10,6 +10,9 @@ class Movie(BaseModel):
   name: str
   thumbnail: str
 
+class MovieList(BaseModel):
+    movies: List[Movie]
+
 movies_raw = [{
   "id": 1,
   "name": "Inception",
@@ -32,7 +35,7 @@ movies = [Movie(**data) for data in movies_raw]
 async def root():
   return {"message": "Hello World"}
 
-@app.get("/movies", response_model=List[Movie])
+@app.get("/movies", response_model=MovieList)
 async def read_movies():
   results = {"movies": movies}
   return results
