@@ -5,30 +5,93 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-class Movie(BaseModel):
+class Tag(BaseModel):
   id: int
   name: str
-  thumbnail: str
+
+class Movie(BaseModel):
+  id: int
+  title: str
+  description: str
+  rating: int
+  image: str
+  tags: List[Tag]
+
+tags_raw = [
+  {
+    "id": 1,
+    "name": "Action"
+  },
+  {
+    "id": 2,
+    "name": "SF"
+  },
+  {
+    "id": 3,
+    "name": "Adventure"
+  }
+]
 
 class MovieList(BaseModel):
     movies: List[Movie]
 
 movies_raw = [{
   "id": 1,
-  "name": "Inception",
-  "thumbnail": "https://example.com/thumbnails/inception.jpg"
-},
-{
+  "title": "Inception",
+  "description": "A movie about dreams within dreams",
+  "rating": 5,
+  "image": "https://picsum.photos/600/400",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Action"
+    },
+    {
+      "id": 2,
+      "name": "SF"
+    },
+    {
+      "id": 3,
+      "name": "Adventure"
+    }
+  ]},
+  {
   "id": 2,
-  "name": "The Matrix",
-  "thumbnail": "https://example.com/thumbnails/matrix.jpg"
-},
-{
+  "title": "The Matrix",
+  "description": "A movie about a man who discovers that he is a computer program",
+  "rating": 4,
+  "image": "https://picsum.photos/600/400",
+  "tags": [
+    {
+      "id": 1,
+      "name": "Action"
+    },
+    {
+      "id": 2,
+      "name": "SF"
+    },
+    {
+      "id": 3,
+      "name": "Adventure"
+    }
+  ]},
+  {
   "id": 3,
-  "name": "Interstellar",
-  "thumbnail": "https://example.com/thumbnails/interstellar.jpg"
-}]
-
+  "title": "Interstellar",
+  "description": "A movie about a man who travels through time to save his family",
+  "rating": 4,
+  "image": "https://picsum.photos/600/400",
+  "tags": [
+    {
+      "id": 2,
+      "name": "SF"
+    },
+    {
+      "id": 3,
+      "name": "Adventure"
+    }
+  ]}]
+  
 movies = [Movie(**data) for data in movies_raw]
 
 @app.get("/")
