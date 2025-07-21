@@ -1,27 +1,17 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Date, Numeric, Text, DateTime
+from sqlalchemy.sql import func
 from db import Base
-
-movie_tag_table = Table(
-    'movie_tag',
-    Base.metadata,
-    Column('movie_id', Integer, ForeignKey('movies.id')),
-    Column('tag_id', Integer, ForeignKey('tags.id'))
-)
 
 class Movie(Base):
     __tablename__ = 'movies'
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    description = Column(String)
-    rating = Column(Integer)
-    image = Column(String)
-    tags = relationship("Tag", secondary=movie_tag_table, back_populates="movies")
-
-class Tag(Base):
-    __tablename__ = 'tags'
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    movies = relationship("Movie", secondary=movie_tag_table, back_populates="tags")
+    tmdb_id = Column(Integer, unique=True, nullable=False)
+    title = Column(String, nullable=False)
+    original_title = Column(String)
+    overview = Column(Text)
+    release_date = Column(Date)
+    vote_average = Column(Numeric(3, 1))
+    vote_count = Column(Integer)
+    poster_path = Column(String)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -10,20 +10,17 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-class TagSchema(BaseModel):
-    id: int
-    name: str
-
-    class Config:
-        from_attributes = True
-
 class MovieSchema(BaseModel):
     id: int
+    tmdb_id: int
     title: str
-    description: str
-    rating: int
-    image: str
-    tags: List[TagSchema]
+    original_title: str | None
+    overview: str | None
+    release_date: str | None
+    vote_average: float | None
+    vote_count: int | None
+    poster_path: str | None
+    created_at: str
 
     class Config:
         from_attributes = True
@@ -40,7 +37,7 @@ class MovieList(BaseModel):
 
 @app.get("/")
 async def root():
-  return {"message": "Hello World"}
+    return {"message": "Hello World"}
 
 @app.get("/movies", response_model=MovieList)
 async def read_movies(db: Session = Depends(get_db)):
