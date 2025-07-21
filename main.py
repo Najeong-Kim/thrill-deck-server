@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 
 from db import Base, engine, SessionLocal
-from models import Movie, Tag
+from models import Movie
 from sqlalchemy.orm import Session
 
 Base.metadata.create_all(bind=engine)
