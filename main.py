@@ -1,6 +1,7 @@
 from typing import List
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
+from datetime import date, datetime
 
 from db import Base, engine, SessionLocal
 from models import Movie
@@ -16,11 +17,11 @@ class MovieSchema(BaseModel):
     title: str
     original_title: str | None
     overview: str | None
-    release_date: str | None
+    release_date: date | None
     vote_average: float | None
     vote_count: int | None
     poster_path: str | None
-    created_at: str
+    created_at: datetime
 
     class Config:
         from_attributes = True
