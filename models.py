@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, Numeric, Text, DateTime
+from sqlalchemy import Column, Integer, String, Date, Numeric, Text, DateTime, SmallInteger
 from sqlalchemy.sql import func
 from db import Base
 
@@ -15,3 +15,16 @@ class Movie(Base):
     vote_count = Column(Integer)
     poster_path = Column(String)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class EscapeRoom(Base):
+    __tablename__ = 'escape_rooms'
+
+    id = Column(Integer, primary_key=True, index=True)
+    theme_name = Column(String(100), nullable=False)
+    branch_name = Column(String(100), nullable=False)
+    difficulty = Column(SmallInteger)
+    horror_level = Column(SmallInteger)
+    location = Column(String(255), nullable=False)
+    poster_image_url = Column(Text)
+    play_time = Column(Integer)
+    synopsis = Column(Text)
